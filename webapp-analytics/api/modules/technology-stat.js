@@ -98,6 +98,7 @@ function getHttpStatusStat(conditions) {
     var row;
     var opt;
     var results = getHttpStatusStatData(conditions);
+    var chartOptions;
 
     for (i = 0, len = results.length; (i < len) && (i < 5); i++) {
         row = results[i];
@@ -105,14 +106,20 @@ function getHttpStatusStat(conditions) {
         ticks.push([i, row['name']]);
     }
 
-    opt = require('/gadgets/bar-chart/config/chart-options.json');
-    opt.xaxis.ticks = ticks;
-    opt.xaxis.axisLabel = 'Top 5 HTTP Response codes';
-    opt.yaxis.axisLabel = 'Number of requests';
+    chartOptions = {
+        'xaxis': {
+            'ticks': ticks,
+            'axisLabel': 'Top 5 HTTP Response codes'
+        },
+        'yaxis': {
+            'axisLabel': 'Number of requests'
+        }
+    };
+
     print([
-        {'series1': {'label': 's', 'data': dataArray}},
-        opt
+        {'series1': {'label': 's', 'data': dataArray}}, chartOptions
     ]);
+
 }
 
 function getHttpStatusTabularStat(conditions, tableHeadings, sortColumn) {
