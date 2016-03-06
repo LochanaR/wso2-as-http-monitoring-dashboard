@@ -1,0 +1,9 @@
+{
+"id": "http-codes-bar-chart",
+"title" : "AS HTTP Codes Bar-Chart",
+"type": "gadget",
+"thumbnail": "store://gadget/http-codes-bar-chart/images/index.jpg",
+"data": {
+"url": "store://gadget/http-codes-bar-chart/http-codes-bar-chart.xml"
+}
+} 

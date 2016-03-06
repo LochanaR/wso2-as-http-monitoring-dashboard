@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+    <ModulePrefs title="Subscriber" description="Subscriber Gadget">
+        <Require feature="dynamic-height"/>
+        <Require feature="pubsub-2"/>
+    </ModulePrefs>
+    <Content type="html">
+        <![CDATA[<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Subscriber Gadget</title><script language="javascript" type="text/javascript" src="js/subscriber-gadget.js"></script></head><body><div id="output"></div></body></html>]]>
+    </Content>
+</Module>

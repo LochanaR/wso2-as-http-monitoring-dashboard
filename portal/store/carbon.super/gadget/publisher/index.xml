@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+    <ModulePrefs title="Publisher" description="Publisher Gadget">
+        <Require feature="dynamic-height"/>
+        <Require feature="pubsub-2"/>
+    </ModulePrefs>
+    <UserPref name="content"
+              display_name="Content"
+              default_value="Default Content"/>
+    <Content type="html">
+        <![CDATA[
+    <html>
+    <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+	<title>Publisher Gadget</title>
+	<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="css/bootstrap-theme.min.css" type="text/css">
+	<link rel="stylesheet" href="css/daterangepicker-bs3.css" type="text/css">
+	<link rel="stylesheet" href="css/custom.css" type="text/css">
+    </head>
+    <body>
+    <div id="output"></div>
+	<div class="btn-group quick-selection pull-right">
+            <button type="button" data-unit="hours" data-offset="1" class="btn btn-default date-rage-opt hidden-sm hidden-md hidden-xs">Hour</button>
+            <button type="button" id="dayBtn" data-unit="days" data-offset="1" class="btn btn-default date-rage-opt hidden-sm hidden-md hidden-xs">Day</button>
+            <button type="button" id="weekBtn" data-unit="days" data-offset="7" class="btn btn-default date-rage-opt hidden-sm hidden-md hidden-xs">Week</button>
+            <button type="button" id="monthBtn" data-unit="days" data-offset="29" class="btn btn-default date-rage-opt hidden-sm hidden-md hidden-xs">Month</button>
+            <button type="button" id="reportrange" class="btn btn-default">
+                <i class="fa fa-calendar fa-lg"></i>
+                <span>July 16, 2014 - July 23, 2014 </span><b class="caret"></b>
+              </button>
+        </div>
+    <script language = "javascript" type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script language = "javascript" type="text/javascript" src="js/moment.js"></script>
+    <script language="javascript" type="text/javascript" src="js/publisher-gadget.js"></script>
+
+    </body>
+    </html>
+    ]]>
+    </Content>
+</Module>

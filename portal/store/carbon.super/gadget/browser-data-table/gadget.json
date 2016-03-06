@@ -1,0 +1,9 @@
+{
+"id": "browsers-list",
+"title" : "AS Browser Table",
+"type": "gadget",
+"thumbnail": "store://gadget/browser-data-table/images/index.jpg",
+"data": {
+"url": "store://gadget/browser-data-table/browser-data-table.xml"
+}
+} 

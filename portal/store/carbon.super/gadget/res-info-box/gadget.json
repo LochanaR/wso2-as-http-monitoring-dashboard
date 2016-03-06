@@ -1,0 +1,9 @@
+{
+"id": "res-info-box",
+"title" : "AS Response Info-Box",
+"type": "gadget",
+"thumbnail": "store://gadget/res-info-box/images/index.jpg",
+"data": {
+"url": "store://gadget/res-info-box/res-info-box.xml"
+}
+} 

@@ -1,0 +1,25 @@
+{
+  "id": "publisher-text-box",
+  "title": "Publisher",
+  "type": "gadget",
+  "category": "Publishers",
+  "thumbnail": "store://gadget/publisher/index.png",
+  "data": {
+    "url": "store://gadget/publisher/index.xml"
+  },
+  "options": {
+    "content": {
+      "type": "text"
+    }
+  },
+  "styles": {
+    "borders": false,
+    "title": false
+  },
+  "notify": {
+    "timeRangeChangePublisher": {
+      "type": "message",
+      "description": "This notifies message generated in publisher"
+    }
+  }
+}

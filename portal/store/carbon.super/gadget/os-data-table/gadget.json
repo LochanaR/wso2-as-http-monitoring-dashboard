@@ -1,0 +1,9 @@
+{
+"id": "os-list",
+"title" : "AS Operating System Table",
+"type": "gadget",
+"thumbnail": "store://gadget/os-data-table/images/index.jpg",
+"data": {
+"url": "store://gadget/os-data-table/os-data-table.xml"
+}
+} 

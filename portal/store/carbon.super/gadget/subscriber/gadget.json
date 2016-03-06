@@ -1,0 +1,25 @@
+{
+  "id": "subscriber-text-box",
+  "title": "Subscriber",
+  "type": "gadget",
+  "category": "Subscribers",
+  "thumbnail": "store://gadget/subscriber/index.png",
+  "data": {
+    "url": "store://gadget/subscriber/index.xml"
+  },
+  "options": {
+    "content": {
+      "type": "text"
+    }
+  },
+  "styles": {
+    "borders": false,
+    "title": false
+  },
+  "listen": {
+    "webappSubscriber": {
+      "type": "webappName",
+      "description": "This listens to messages generated in publisher"
+    }
+  }
+}

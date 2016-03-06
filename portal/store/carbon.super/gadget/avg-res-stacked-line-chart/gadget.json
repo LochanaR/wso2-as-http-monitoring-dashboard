@@ -1,0 +1,9 @@
+{
+"id": "avg-res-stacked-line-chart",
+"title" : "AS Average Response Line-Chart",
+"type": "gadget",
+"thumbnail": "store://gadget/avg-res-stacked-line-chart/images/index.png",
+"data": {
+"url": "store://gadget/avg-res-stacked-line-chart/avg-res-stacked-line-chart.xml"
+}
+} 

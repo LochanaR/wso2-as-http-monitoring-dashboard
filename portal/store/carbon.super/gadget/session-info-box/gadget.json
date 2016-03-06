@@ -1,0 +1,9 @@
+{
+"id": "session-info-box",
+"title" : "AS Session Info-Box",
+"type": "gadget",
+"thumbnail": "store://gadget/session-info-box/images/index.jpg",
+"data": {
+"url": "store://gadget/session-info-box/session-info-box.xml"
+}
+} 

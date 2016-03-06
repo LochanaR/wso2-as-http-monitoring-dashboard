@@ -1,0 +1,9 @@
+{
+"id": "locations-list",
+"title" : "AS Location Table",
+"type": "gadget",
+"thumbnail": "store://gadget/location-data-table/images/index.jpg",
+"data": {
+"url": "store://gadget/location-data-table/location-data-table.xml"
+}
+} 
