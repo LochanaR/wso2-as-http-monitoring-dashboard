@@ -25,7 +25,7 @@ var url = pref.getString('dataSource');
 
 var template;
 
-function fetchData(startTime, endTime) {
+function fetchData() {
     var url = pref.getString('dataSource');
 
     var data = {
