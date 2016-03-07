@@ -5,7 +5,7 @@ var options;
 var plot;
 var node = pref.getString("node") || undefined;
 var start = pref.getString("startTime") || undefined;
-var end  = pref.getString("endTime") || undefined;
+var end = pref.getString("endTime") || undefined;
 
 $(function () {
 
@@ -35,16 +35,16 @@ function togglePause(btnElm) {
     else {
         if (isNumber(pref.getString("updateGraph")) && !(pref.getString("updateGraph") == "0")) {
             delay = setTimeout(function () {
-                fetchData()
-            },
-            pref.getString("updateGraph") * 1000);
+                    fetchData()
+                },
+                pref.getString("updateGraph") * 1000);
         }
     }
 }
 
 var drawChart = function (data, options) {
 
-    if(data[0]["data"].length == 0){
+    if (data[0]["data"].length == 0) {
         $('#placeholder').html("<div class='no-data'>No data available for selected options..!</div>");
         return;
     }
@@ -69,7 +69,7 @@ var drawChart = function (data, options) {
                 var x = item.datapoint[0],
                     y = item.datapoint[1];
 
-                showTooltip(item.pageX, item.pageY,y);
+                showTooltip(item.pageX, item.pageY, y);
             }
         } else {
             $("#tooltip").remove();
@@ -96,8 +96,8 @@ var drawChart = function (data, options) {
 
         plot = $.plot("#placeholder", data,
             $.extend(true, {}, options, {
-                xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to },
-                yaxis: { min: ranges.yaxis.from, max: ranges.yaxis.to }
+                xaxis: {min: ranges.xaxis.from, max: ranges.xaxis.to},
+                yaxis: {min: ranges.yaxis.from, max: ranges.yaxis.to}
             })
         );
 
@@ -107,7 +107,7 @@ var drawChart = function (data, options) {
     $("#overview").bind("plotselected", function (event, ranges) {
         plot.setSelection(ranges);
     });
-}
+};
 
 function fetchData() {
     var url = pref.getString("dataSource");
@@ -119,7 +119,7 @@ function fetchData() {
         action: pref.getString("appStatType")
     };
     var appname = pref.getString("appname");
-    if(appname!=""){
+    if (appname != "") {
         data.appname = appname;
     }
     $.ajax({
@@ -138,7 +138,7 @@ function onDataReceived(series) {
     var chartOptions = options;
     var _chartData = [];
     addSeriesCheckboxes(chartData);
-    $.each(chartData, function (key, val) {
+    $.each(chartData, function (key) {
         _chartData.push(chartData[key]);
     });
     //console.info(chartData);
@@ -157,7 +157,7 @@ function showTooltip(x, y, contents) {
 }
 function addSeriesCheckboxes(data) {
     // insert checkboxes
-    var seriesContainer = $("#optionsRight .series-toggle");
+    var seriesContainer = $("#optionsRight").find(".series-toggle");
     seriesContainer.html("");
     var objCount = 0;
     for (var key in data) {
@@ -168,7 +168,7 @@ function addSeriesCheckboxes(data) {
     if (objCount > 1) {
         $.each(data, function (key, val) {
             seriesContainer.append("<li><input type='checkbox' name='" + key +
-                "' checked='checked' id='id" + key + "'></input>" +
+                "' checked='checked' id='id" + key + "'/>" +
                 "<label for='id" + key + "' class='seriesLabel'>"
                 + val.label + "</label></li>");
         });

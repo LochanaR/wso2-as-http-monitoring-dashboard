@@ -28,10 +28,6 @@
               display_name="Node IP"
               default_value="">
     </UserPref>
-    <!--UserPref name="options"
-              display_name="Chart Options"
-              default_value="/portal/gadgets/stacked-chart/js/options-stack.js">
-    </UserPref-->
     <UserPref name="appStatType"
               display_name="App Stat Type"
               default_value="error">
