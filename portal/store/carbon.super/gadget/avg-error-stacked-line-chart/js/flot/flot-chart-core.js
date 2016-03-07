@@ -28,8 +28,7 @@ $(function () {
 });
 
 function togglePause(btnElm) {
-    var pauseBtn = btnElm;
-    if (pauseBtn.hasClass('btn-warning')) {
+       if (btnElm.hasClass('btn-warning')) {
         clearTimeout(delay);
     }
     else {
