@@ -25,7 +25,6 @@ var publish;
 
         var unit = $(btn).attr("data-unit");
         var offset = $(btn).attr("data-offset");
-        //alert(unit + " " +offset)
         var now = moment().format('YYYY-MM-DD HH:mm');
         var startDate = moment().subtract(offset, unit).format('YYYY-MM-DD HH:mm');
         gadgets.Hub.publish('timeRangeChangePublisher', {"start": startDate.toString(), "end": now.toString()});
