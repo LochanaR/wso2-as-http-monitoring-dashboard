@@ -27,8 +27,7 @@ $(function () {
 });
 
 function togglePause(btnElm) {
-    var pauseBtn = btnElm;
-    if (pauseBtn.hasClass('btn-warning')) {
+    if (btnElm.hasClass('btn-warning')) {
         clearTimeout(delay);
     }
     else {
@@ -115,7 +114,6 @@ function onDataReceived(data) {
     $('.error-percentage').text(data.percentage != undefined ? data.percentage.toLocaleString() : '');
     if( data.graph){
         chartData = {"label" : "count", "data" : data.graph};
-        options =
             options =
             {
                 "legend": {
@@ -141,7 +139,7 @@ function onDataReceived(data) {
         var chartOptions = options;
         var _chartData = [];
 //    addSeriesCheckboxes(chartData);
-        $.each(chartData, function (key, val) {
+        $.each(chartData, function (key) {
             _chartData.push(chartData[key]);
         });
         //console.info(chartData);
@@ -161,7 +159,7 @@ function showTooltip(x, y, contents) {
 }
 function addSeriesCheckboxes(data) {
     // insert checkboxes
-    var seriesContainer = $("#optionsRight .series-toggle");
+    var seriesContainer = $("#optionsRight").find(".series-toggle");
     seriesContainer.html("");
     var objCount = 0;
     for (var key in data) {
@@ -172,7 +170,7 @@ function addSeriesCheckboxes(data) {
     if (objCount > 1) {
         $.each(data, function (key, val) {
             seriesContainer.append("<li><input type='checkbox' name='" + key +
-                "' checked='checked' id='id" + key + "'></input>" +
+                "' checked='checked' id='id" + key + "'/>" +
                 "<label for='id" + key + "' class='seriesLabel'>"
                 + val.label + "</label></li>");
         });
