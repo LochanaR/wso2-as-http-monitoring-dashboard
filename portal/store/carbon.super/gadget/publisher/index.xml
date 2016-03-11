@@ -1,41 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Module>
-    <ModulePrefs title="Publisher" description="Publisher Gadget">
+    <ModulePrefs title="Publisher" description="Publisher Gadget" height="250">
         <Require feature="dynamic-height"/>
         <Require feature="pubsub-2"/>
     </ModulePrefs>
-    <UserPref name="content"
-              display_name="Content"
-              default_value="Default Content"/>
     <Content type="html">
         <![CDATA[
-    <html>
-    <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
-	<title>Publisher Gadget</title>
+    <head>
+	<link rel="stylesheet" type="text/css" href="/portal/libs/bootstrap_3.3.5/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="/portal/libs/theme-wso2_1.0/css/theme-wso2.css" />
 	<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-	<link rel="stylesheet" href="css/bootstrap-theme.min.css" type="text/css">
-	<link rel="stylesheet" href="css/daterangepicker-bs3.css" type="text/css">
-	<link rel="stylesheet" href="css/custom.css" type="text/css">
+	<link rel="stylesheet" href="css/daterangepicker.css" type="text/css">
     </head>
     <body>
-    <div id="output"></div>
-	<div class="btn-group quick-selection pull-right">
-            <button type="button" data-unit="hours" data-offset="1" class="btn btn-default date-rage-opt hidden-sm hidden-md hidden-xs">Hour</button>
-            <button type="button" id="dayBtn" data-unit="days" data-offset="1" class="btn btn-default date-rage-opt hidden-sm hidden-md hidden-xs">Day</button>
-            <button type="button" id="weekBtn" data-unit="days" data-offset="7" class="btn btn-default date-rage-opt hidden-sm hidden-md hidden-xs">Week</button>
-            <button type="button" id="monthBtn" data-unit="days" data-offset="29" class="btn btn-default date-rage-opt hidden-sm hidden-md hidden-xs">Month</button>
-            <button type="button" id="reportrange" class="btn btn-default">
-                <i class="fa fa-calendar fa-lg"></i>
-                <span>July 16, 2014 - July 23, 2014 </span><b class="caret"></b>
-              </button>
+    <div id="clearfix">
+	<div class="btn-group quick-selection pull-right" id ="date-select">
+            <button type="button" data-unit="hours" data-offset="1" class="btn btn-default type active">Hour</button>
+            <button type="button" id="dayBtn" data-unit="days" data-offset="1" class="btn btn-default type">Day</button>
+            <button type="button" id="weekBtn" data-unit="days" data-offset="7" class="btn btn-default type">Week</button>
+            <button type="button" id="monthBtn" data-unit="days" data-offset="29" class="btn btn-default type">Month</button>
+            <div id="reportrange" class="btn-group" role= "group">
+                <button type="button" class="btn btn-default type dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i> <span></span>
+                            <b class="caret"></b>
+                </button>
+            </div>
         </div>
-    <script language = "javascript" type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
-    <script language = "javascript" type="text/javascript" src="js/moment.js"></script>
-    <script language="javascript" type="text/javascript" src="js/publisher-gadget.js"></script>
-
-    </body>
-    </html>
-    ]]>
+    </div>
+    <script src="js/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="js/moment.min.js"></script>
+    <script type="text/javascript" src="js/daterangepicker.js"></script>
+	<script src="js/publisher-gadget.js"></script>
+       </body>
+       ]]>
     </Content>
 </Module>

@@ -16,41 +16,69 @@
  * /
  *
  */
+$(function() {
 
-var publish;
+        $('#reportrange').daterangepicker({
+        "autoApply": true,
+        "alwaysShowCalendars": true,
+        opens: "left"
+    }, callbackDateRangePicker);
 
-(function () {
+});
 
-    publish = function (btn) {
+var callbackDateRangePicker = function (start, end,label) {
+    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    console.log("Date range chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+    publish(start,end);
+};
 
-        var unit = $(btn).attr("data-unit");
-        var offset = $(btn).attr("data-offset");
-        var now = moment().format('YYYY-MM-DD HH:mm');
-        var startDate = moment().subtract(offset, unit).format('YYYY-MM-DD HH:mm');
-        gadgets.Hub.publish('timeRangeChangePublisher', {"start": startDate.toString(), "end": now.toString()});
-        $('#reportrange').text(startDate+ " - " + now);
-    };
+$(window).load(function(){
+    var datePicker = $('.daterangepicker'),
+        parentWindow = window.parent.document,
+        thisParentWrapper = $('#'+gadgets.rpc.RPC_ID, parentWindow).closest('.gadget-body');
 
-    var init = function () {
+    $('head', parentWindow).append('<link rel="stylesheet" type="text/css" href="../../store/carbon.super/gadget/publisher/css/daterangepicker.css" />');
+    $('body', parentWindow).append('<script src="../../store/carbon.super/gadget/publisher/js/daterangepicker.js" type="text/javascript"></script>');
+    $(thisParentWrapper).append(datePicker);
+    $(thisParentWrapper).closest('.ues-component-box').addClass('widget form-control-widget');
 
-        $('button[data-unit=hours]').on('click', function () {
-            publish(this);
-        });
 
-        $('#dayBtn').on('click', function () {
-            publish(this);
-        });
+});
 
-        $('#weekBtn').on('click', function () {
-            publish(this);
-        });
+var publish = function (start, end) {
+    var formattedEnd = end.format('YYYY-MM-DD HH:mm');
+    var formattedStart = start.format('YYYY-MM-DD HH:mm');
+    gadgets.Hub.publish('timeRangeChangePublisher', {"start": formattedStart.toString(), "end": formattedEnd.toString()});
+    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+};
 
-        $('#monthBtn').on('click', function () {
-            publish(this);
-        });
+var getTimeFromButton = function(btn){
+    var endTime = moment();
+    var startTime = moment().subtract($(btn).attr("data-unit"), $(btn).attr("data-offset"));
+    return [startTime, endTime];
+};
 
-    };
-    init();
-})();
+$('button[data-unit=hours]').on('click', function () {
+    var array = getTimeFromButton(this);
+    publish(array[0], array[1]);
+});
 
+$('#dayBtn').on('click', function () {
+    var array = getTimeFromButton(this);
+    publish(array[0], array[1]);
+});
+
+$('#weekBtn').on('click', function () {
+    var array = getTimeFromButton(this);
+    publish(array[0], array[1]);
+});
+
+$('#monthBtn').on('click', function () {
+    var array = getTimeFromButton(this);
+    publish(array[0], array[1]);
+});
+$(".type").click(function(){
+    $(".type").removeClass("active");
+    $(this).addClass("active");
+});
 
