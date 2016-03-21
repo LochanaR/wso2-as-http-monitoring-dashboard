@@ -6,39 +6,40 @@ var plot;
 var node = pref.getString("node") || undefined;
 var start = pref.getString("startTime") || undefined;
 var end  = pref.getString("endTime") || undefined;
+
 $(function () {
 
-    var pauseBtn = $("button.pause");
-    pauseBtn.click(function () {
-        $(this).toggleClass('btn-warning');
-        togglePause($(this));
-    });
-    $(".reset").click(function () {
-        fetchData();
-    });
+    //var pauseBtn = $("button.pause");
+    //pauseBtn.click(function () {
+    //    $(this).toggleClass('btn-warning');
+    //    togglePause($(this));
+    //});
+    //$(".reset").click(function () {
+    //    fetchData();
+    //});
 
     fetchData();
 
-    if (pref.getString("pause").toLowerCase() == "yes") {
-        document.getElementById("pauseBtn").style.visibility = 'visible';
-    }
+    //if (pref.getString("pause").toLowerCase() == "yes") {
+    //    document.getElementById("pauseBtn").style.visibility = 'visible';
+    //}
 
 
 });
-
-function togglePause(btnElm) {
-    if (btnElm.hasClass('btn-warning')) {
-        clearTimeout(delay);
-    }
-    else {
-        if (isNumber(pref.getString("updateGraph")) && !(pref.getString("updateGraph") == "0")) {
-            delay = setTimeout(function () {
-                fetchData()
-            },
-            pref.getString("updateGraph") * 1000);
-        }
-    }
-}
+//
+//function togglePause(btnElm) {
+//    if (btnElm.hasClass('btn-warning')) {
+//        clearTimeout(delay);
+//    }
+//    else {
+//        if (isNumber(pref.getString("updateGraph")) && !(pref.getString("updateGraph") == "0")) {
+//            delay = setTimeout(function () {
+//                fetchData()
+//            },
+//            pref.getString("updateGraph") * 1000);
+//        }
+//    }
+//}
 
 var drawChart = function (data, options) {
 
@@ -127,12 +128,13 @@ function fetchData() {
         data: data,
         success: onDataReceived
     });
-    var pauseBtn = $("button.pause");
-    togglePause(pauseBtn);
+    //var pauseBtn = $("button.pause");
+    //togglePause(pauseBtn);
 }
 function onDataReceived(series) {
     chartData = series[0];
     options = $.extend(true, {}, chartConfigs(), series[1]);
+    console.log(options);
     var chartOptions = options;
     var _chartData = [];
     addSeriesCheckboxes(chartData);
@@ -142,10 +144,10 @@ function onDataReceived(series) {
         });
     }
     drawChart(_chartData, chartOptions);
-    var seriesContainer = $("#optionsRight");
-    seriesContainer.find(":checkbox").click(function () {
-        filterSeries(chartData);
-    });
+    //var seriesContainer = $("#optionsRight");
+    //seriesContainer.find(":checkbox").click(function () {
+    //    filterSeries(chartData);
+    //});
 }
 
 function showTooltip(x, y, contents) {
@@ -174,25 +176,26 @@ function addSeriesCheckboxes(data) {
         });
     }
 }
-function filterSeries(data) {
-    var filteredData = [];
-    var seriesContainer = $("#optionsRight");
-    seriesContainer.find("input:checked").each(function () {
-        var key = $(this).attr("name");
-        if (key && data[key]) {
-            var pausebtn = $("button.pause");
-            if (!pausebtn.hasClass('btn-warning')) {
-                $(pausebtn).toggleClass('btn-warning');
-            }
-            togglePause(pausebtn);
-            filteredData.push(data[key]);
-        }
-        drawChart(filteredData, options);
-    });
-}
-function isNumber(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
-}
+
+//function filterSeries(data) {
+//    var filteredData = [];
+//    var seriesContainer = $("#optionsRight");
+//    seriesContainer.find("input:checked").each(function () {
+//        var key = $(this).attr("name");
+//        if (key && data[key]) {
+//            var pausebtn = $("button.pause");
+//            if (!pausebtn.hasClass('btn-warning')) {
+//                $(pausebtn).toggleClass('btn-warning');
+//            }
+//            togglePause(pausebtn);
+//            filteredData.push(data[key]);
+//        }
+//        drawChart(filteredData, options);
+//    });
+//}
+//function isNumber(n) {
+//    return !isNaN(parseFloat(n)) && isFinite(n);
+//}
 
 
 gadgets.HubSettings.onConnect = function () {

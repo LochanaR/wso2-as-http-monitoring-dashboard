@@ -53,14 +53,14 @@ function buildConditions() {
     var endTime = request.getParameter('end_time') || util.formatDate(new Date());
     var node = request.getParameter('node');
     var webapp = request.getParameter('appname');
-    var tenantId = session.get('tenantId');
+    //var tenantId = session.get('tenantId');
     var where = [];
     var params = [];
 
-    if (tenantId != null) {
-        where.push('tenantId = ?');
-        params.push(tenantId);
-    }
+    //if (tenantId != null) {
+    //    where.push('tenantId = ?');
+    //    params.push(tenantId);
+    //}
     if (startTime != null) {
         where.push('time >= ?');
         params.push(startTime);
