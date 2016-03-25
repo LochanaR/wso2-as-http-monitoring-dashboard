@@ -1,4 +1,5 @@
 {
-  "gadgetsUrlBase": "http://localhost:9765/webapp-analytics/gadgets",
-  "database": "WSO2AS_MONITORING_DB"
+  "DASServiceUrl": "https://localhost:9443",
+  "DASUsername": "admin",
+  "DASPassword": "admin"
 }

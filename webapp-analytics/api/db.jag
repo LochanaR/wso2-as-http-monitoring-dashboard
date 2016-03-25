@@ -1,6 +1,6 @@
 <%
 /*
- * Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -17,43 +17,156 @@
  * under the License.
  */
 
-var log = new Log();
+var log = new Log("DB");
+var config = require('/config/config.json');
+var carbon = require('carbon');
+include('constants.jag');
 
-function executeQuery(sql, params) {
-    var results;
-    var db = getDbConnection();
+/**
+ * Use the REST API provided by DAS to retrieve aggregated information.
+ *
+ * @param tableName         table name in DAS
+ * @param query             query parameter as a string
+ * @param aggregateLevel    aggregate level
+ * @param facetField        facet field
+ * @param aggregateFields   information about aggregated fields
+ * @returns {*}
+ */
+function getAggregateDataFromDAS(tableName, query, aggregateLevel, facetField, aggregateFields) {
 
-    if (db == null) {
-        createDbConnection();
-        db = getDbConnection();
+
+    if (!isTableExists(tableName)) {
+        return ;
     }
 
-    if (params == null) {
-        return db.query(sql);
-    }
+    var data = {
+        "tableName": tableName,
+        "query": query,
+        "aggregateLevel": aggregateLevel,
+        "groupByField": facetField,
+        "aggregateFields": aggregateFields
+    };
 
-    // duplicate the parameters in the case of percentage calculation
-    if (sql.split('?').length - 1 > params.length) {
-        params = params.concat(params);
-    }
+    return sendDASRequest(data, AGGREGATE_RESOURCE, 'POST');
 
-    // add sql statement as the first parameter
-    params = [sql].concat(params);
-
-    if (log.isDebugEnabled()) {
-        log.debug('Query parameters: ' + params);
-    }
-
-    return db.query.apply(db, params);
 }
 
-function createDbConnection() {
-    var config = require('/config/config.json');
-    var db = new Database(config.database);
-    session.put('db', db);
+/**
+ * Use the REST API provided by DAS to retrieve all data from a table.
+ *
+ * @param tableName         table name in DAS
+ */
+function getAllDataFromDAS(tableName) {
+    if (!isTableExists(tableName)) {
+         return;
+    }
+
+    return sendDASRequest("", TABLE_RESOURCE + '/' + tableName, 'GET');
 }
 
-function getDbConnection() {
-    return session.get('db');
+/**
+ * This method checks the existence of the given table in DAS.
+ *
+ * @param tableName         table name in DAS
+ */
+function isTableExists(tableName) {
+    var result;
+
+    if (application.get(DAS_TABLES) == null) {
+        application.put(DAS_TABLES, []);
+    }
+
+    if (application.get(DAS_TABLES).indexOf(tableName) > -1) {
+        return true;
+    }
+
+    result = JSON.parse(sendDASRequest("", TABLE_EXISTS_RESOURCE + '?table=' + tableName, 'GET'));
+    if (result['status'] == 'success') {
+        application.get(DAS_TABLES).push(tableName);
+        return true;
+    }
+    return false;
+
 }
+
+/**
+ * Sends the reqeust to DAS
+ *
+ * @param data            payload for the POST request
+ * @param restResource    restResource of DAS REST API (ex: aggregates, search)
+ */
+function sendDASRequest(data, restResource, httpMethod) {
+    log.info(JSON.stringify(data));
+    log.info(restResource);
+    log.info(httpMethod);
+    var dasServiceURL;
+    var authorizationHeader;
+    var result;
+    if (!(dasServiceURL = application.get(DAS_SERVICE_URL))) {
+        dasServiceURL = getDASServiceURL();
+        application.put(DAS_SERVICE_URL, dasServiceURL);
+    }
+
+    if (!(authorizationHeader = application.get(AUTHORIZATION_HEADER))) {
+        authorizationHeader = getAuthorizationHeader();
+        application.put(AUTHORIZATION_HEADER, authorizationHeader)
+    }
+
+    if (dasServiceURL && authorizationHeader) {
+        var httpHeaders = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic ' + authorizationHeader
+        };
+
+        if (httpMethod == 'POST'){
+             result = post(dasServiceURL + restResource, JSON.stringify(data), httpHeaders, "application/json");
+
+        } else {
+            result = get(dasServiceURL + restResource, {}, httpHeaders, "application/json");
+        }
+
+        if (result) {
+            return result.data;
+        } else {
+            log.warn("No data found for [request URL: " + dasServiceURL + ", data: " + data + "]");
+        }
+    } else {
+        log.error("Either DAS Service URL or Authorization header is incorrect, please check.");
+
+    }
+}
+
+/**
+ * Get the DAS service URL from the configuration. If it is empty, set the service URL of the current server
+ * as the DAS service URL.
+ *
+ * @returns {string}    DAS service URL
+ */
+function getDASServiceURL() {
+    var dasServiceURL = config[DAS_SERVICE_URL];
+    return dasServiceURL + '/analytics/';
+}
+
+/**
+ * Return the base64 encoded value of the DAS username and password.
+ *
+ * @returns {*} base64 encoded username:password
+ */
+function getAuthorizationHeader() {
+    var username = config[DAS_USERNAME];
+    var password = config[DAS_PASSWORD];
+
+    if (!username) {
+        log.error("DAS username is not defined.");
+        return;
+    }
+
+    if (!password) {
+        log.error("DAS password is not defined.");
+        return;
+    }
+
+    return javax.xml.bind.DatatypeConverter.printBase64Binary(new java.lang.String(username + ":" + password).getBytes());
+}
+
 %>

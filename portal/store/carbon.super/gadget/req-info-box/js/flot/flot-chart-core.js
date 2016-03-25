@@ -104,7 +104,6 @@ function fetchData() {
     togglePause(pauseBtn);
 }
 function onDataReceived(data) {
-    //console.log(data);
     $('.total-count').text(data.total != undefined ? data.total.toLocaleString() : '');
     $('.measure-label').text(data.measure_label);
     $('#max-count').text(data.max != undefined ? data.max.toLocaleString() : '');
