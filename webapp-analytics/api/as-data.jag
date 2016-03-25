@@ -72,11 +72,13 @@ function getNodeList() {
 }
 
 function getAppsStat() {
+    var endTime;
     var appList = require('modules/app-list.js');
     if (log.isDebugEnabled()) {
         log.debug('Retrieving applicaiton list');
     }
-    appList.getAppsStat(conditions, request.getParameter('end_time') || util.formatDate(new Date()));
+    endTime = util.parseDateTime(request.getParameter('end_time')) || new Date();
+    appList.getAppsStat(conditions, Math.ceil(endTime / 1000));
 }
 
 function getBrowserStat() {

@@ -96,9 +96,7 @@ function isTableExists(tableName) {
  * @param restResource    restResource of DAS REST API (ex: aggregates, search)
  */
 function sendDASRequest(data, restResource, httpMethod) {
-    log.info(JSON.stringify(data));
-    log.info(restResource);
-    log.info(httpMethod);
+
     var dasServiceURL;
     var authorizationHeader;
     var result;
