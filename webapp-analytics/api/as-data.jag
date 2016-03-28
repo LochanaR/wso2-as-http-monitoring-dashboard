@@ -96,8 +96,7 @@ function getBrowserTabularStat() {
     if (log.isDebugEnabled()) {
         log.debug('Retrieving browser stat - tabular');
     }
-    technologyStat.getTechnologyTubularStat(conditions, 'browser',
-            ['Browser', 'Request Count', 'Percentage'], BROWSER_SORT);
+    technologyStat.getBrowserTabularStat(conditions, ['Browser', 'Request Count', 'Percentage'], BROWSER_SORT);
 }
 
 function getOperatingSystemStat() {

@@ -36,6 +36,23 @@ function getHttpStatusAllRequests(conditions) {
     }
 }
 
+function getBrowserAllRequests(conditions) {
+    var results = getAggregateDataFromDAS(USER_AGENT_FAMILY_TABLE, conditions, "0", ALL_FACET, [
+        {
+            "fieldName": AVERAGE_REQUEST_COUNT,
+            "aggregate": "SUM",
+            "alias": "SUM_" + AVERAGE_REQUEST_COUNT
+        }
+    ]);
+
+    results = JSON.parse(results);
+
+    if (results.length > 0) {
+        return results[0]['values']['SUM_' + AVERAGE_REQUEST_COUNT];
+    }
+}
+
+
 var dbMapping = {
     'browser': {
         'table': 'USER_AGENT_FAMILY',
@@ -135,6 +152,38 @@ function getHttpStatusStatData(conditions) {
     return output;
 }
 
+function getBrowserStatData(conditions){
+    var output = [];
+    var i, total_request_count;
+    var results, result;
+
+    total_request_count = getBrowserAllRequests(conditions);
+
+    if(total_request_count <= 0){
+        return;
+
+    }
+    results = getAggregateDataFromDAS(USER_AGENT_FAMILY_TABLE, conditions, "0", USER_AGENT_FAMILY_FACET, [
+        {
+            "fieldName": AVERAGE_REQUEST_COUNT,
+            "aggregate": "SUM",
+            "alias": "SUM_" + AVERAGE_REQUEST_COUNT
+        }
+    ]);
+
+    results = JSON.parse(results);
+
+    if (results.length > 0) {
+        for (i = 0; i < results.length; i++) {
+            result = results[i]['values'];
+            output.push([result[USER_AGENT_FAMILY_FACET], result['SUM_' + AVERAGE_REQUEST_COUNT],
+                (result['SUM_' + AVERAGE_REQUEST_COUNT]*100/total_request_count).toFixed(2)]);
+        }
+    }
+
+    return output;
+}
+
 function getHttpStatusStat(conditions) {
     var dataArray = [];
     var ticks = [];
@@ -168,4 +217,8 @@ function getHttpStatusStat(conditions) {
 
 function getHttpStatusTabularStat(conditions, tableHeadings, sortColumn) {
     print(helper.getTabularData(getHttpStatusStatData(conditions), tableHeadings, sortColumn));
+}
+
+function getBrowserTabularStat(conditions, tableHeadings, sortColumn){
+    print(helper.getTabularData(getBrowserStatData(conditions), tableHeadings, sortColumn));
 }
