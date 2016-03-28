@@ -22,7 +22,10 @@ var helper = require('as-data-util.js');
 
 function getContextTabularStat(conditions, tableHeadings, sortColumn){
     print(helper.getTabularData(getContextStatData(conditions), tableHeadings, sortColumn));
+}
 
+function getReferrerTabularStat(conditions, tableHeadings, sortColumn){
+    print(helper.getTabularData(getReferrerStatData(conditions), tableHeadings, sortColumn));
 }
 function getContextAllRequests(conditions){
 
@@ -41,6 +44,21 @@ function getContextAllRequests(conditions){
     }
 }
 
+function getReferrerAllRequests(conditions){
+    var results = getAggregateDataFromDAS(REFERRER_TABLE, conditions, "0", ALL_FACET, [
+        {
+            "fieldName": AVERAGE_REQUEST_COUNT,
+            "aggregate": "SUM",
+            "alias": "SUM_" + AVERAGE_REQUEST_COUNT
+        }
+    ]);
+
+    results = JSON.parse(results);
+
+    if (results.length > 0) {
+        return results[0]['values']['SUM_' + AVERAGE_REQUEST_COUNT];
+    }
+}
 
 function getContextStatData(conditions)
 {
@@ -69,6 +87,38 @@ function getContextStatData(conditions)
         for (i = 0; i < results.length; i++) {
             result = results[i]['values'];
             output.push([result[WEBAPP_CONTEXT_FACET], result['SUM_' + AVERAGE_REQUEST_COUNT],
+                (result['SUM_' + AVERAGE_REQUEST_COUNT]*100/total_request_count).toFixed(2)]);
+        }
+    }
+
+    return output;
+}
+
+function getReferrerStatData(conditions){
+    var output = [];
+    var i, total_request_count;
+    var results, result;
+
+    total_request_count = getContextAllRequests(conditions);
+
+    if(total_request_count <= 0){
+        return;
+
+    }
+    results = getAggregateDataFromDAS(REFERRER_TABLE, conditions, "0", REFERRER_FACET, [
+        {
+            "fieldName": AVERAGE_REQUEST_COUNT,
+            "aggregate": "SUM",
+            "alias": "SUM_" + AVERAGE_REQUEST_COUNT
+        }
+    ]);
+
+    results = JSON.parse(results);
+
+    if (results.length > 0) {
+        for (i = 0; i < results.length; i++) {
+            result = results[i]['values'];
+            output.push([result[REFERRER_FACET], result['SUM_' + AVERAGE_REQUEST_COUNT],
                 (result['SUM_' + AVERAGE_REQUEST_COUNT]*100/total_request_count).toFixed(2)]);
         }
     }

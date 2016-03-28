@@ -198,8 +198,7 @@ function getReferralStat() {
     if (log.isDebugEnabled()) {
         log.debug('Retrieving referral stat');
     }
-    trafficStat.getTrafficStat(conditions, 'referral', ['Referrer', 'Request Count',
-                                                        'Percentage'], REFERRAL_SORT)
+    trafficStat.getReferrerTabularStat(conditions, ['Referrer', 'Request Count','Percentage'], REFERRAL_SORT);
 }
 
 function getRequestStat() {
