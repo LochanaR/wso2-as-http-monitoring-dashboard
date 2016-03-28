@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -17,39 +17,46 @@
  */
 
 include('../db.jag');
+include('../constants.jag');
 var helper = require('as-data-util.js');
 
-// type: select statement
+// This map holds the field name, operation and alias and for request count, response time and error count
 var parameterMapping = {
-    'request': 'avg(averageRequestCount)',
-    'response': 'avg(averageResponseTime)',
-    'error': 'sum(httpErrorCount)'
+    'request': ['averageRequestCount', 'AVG', 'AVG_averageRequestCount'],
+    'response': ['averageResponseTime', 'AVG', 'AVG_averageResponseTime'],
+    'error': ['httpErrorCount','SUM', 'AVG_httpErrorCount']
 };
 
-function buildTimeVaryingSql(selectStatement, whereClause) {
-    return 'SELECT ' + selectStatement + ' as value, ' +
-           'UNIX_TIMESTAMP(STR_TO_DATE(substring(time,1,13), \'%Y-%m-%d %H:\')) * 1000 as time ' +
-           'FROM REQUESTS_SUMMARY_PER_MINUTE ' + whereClause +
-           ' GROUP BY substring(time,1,13);';
-}
+function getTimeVaryingStatData(conditions, mappedParameters) {
+    results = getAggregateDataFromDAS(REQUEST_SUMMARY_TABLE, conditions, "0", TIME_FACET, [{
+        "fieldName": mappedParameters[0],
+        "aggregate": mappedParameters[1],
+        "alias": mappedParameters[2]
+    }
+    ]);
 
-function getTimeVaryingStatData(conditions, type) {
-    var selectStatement = parameterMapping[type];
-    var sql = buildTimeVaryingSql(selectStatement, conditions.sql);
-    return executeQuery(sql, conditions.params);
+    return results;
 }
 
 function getTimeVaryingStat(conditions, type, color) {
     var dataArray = [];
-    var i, len;
+    var i;
     var row;
-    var results = getTimeVaryingStatData(conditions, type);
+    var mappedParameters = parameterMapping[type];
+
+    var results = JSON.parse(getTimeVaryingStatData(conditions, mappedParameters));
     var chartOptions = {};
 
-    for (i = 0, len = results.length; i < len; i++) {
-        row = results[i];
-        dataArray.push([row['time'], row['value']]);
+    for (i = 0; i < results.length; i++) {
+        row = results[i]['values'];
+        var time = new Date(String(row[TIME_FACET][0]).replace(' ', 'T') + ':00.000Z').getTime();
+        dataArray.push([Number(time).toPrecision(), row[mappedParameters[2]]]);
     }
+
+    // sorting the results
+    dataArray.sort(function (a, b) {
+        return Number(a[0]) - Number(b[0]);
+    });
 
     if (color != null) {
         chartOptions = {
