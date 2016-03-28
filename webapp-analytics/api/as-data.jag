@@ -47,7 +47,9 @@ var log = new Log("AS-DATA");
 function buildConditions() {
     // default data range is the past 24 hours
     var startTime = util.parseDateTime(request.getParameter('start_time')) || new Date() - 86400000;
+    new Log().info("Request's start time: " +startTime);
     var endTime = util.parseDateTime(request.getParameter('end_time')) || new Date();
+    new Log().info("Request's end time: " +endTime);
     var node = request.getParameter('node');
     var webapp = request.getParameter('appname');
     var conditions = [];

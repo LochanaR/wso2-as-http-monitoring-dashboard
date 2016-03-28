@@ -59,7 +59,7 @@ function onDataReceived(data) {
     $('#placeholder').html(template(headings));
 
     var dataTableOptions = {};
-
+    
     dataTableOptions['data'] = tableData;
     dataTableOptions['order'] = [orderColumn];
 

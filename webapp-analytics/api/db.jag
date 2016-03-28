@@ -34,10 +34,12 @@ include('constants.jag');
  */
 function getAggregateDataFromDAS(tableName, query, aggregateLevel, facetField, aggregateFields) {
 
-
     if (!isTableExists(tableName)) {
+        log.info(tableName);
         return ;
     }
+
+    log.info("continues to get data from DAS table");
 
     var data = {
         "tableName": tableName,
@@ -71,12 +73,13 @@ function getAllDataFromDAS(tableName) {
  */
 function isTableExists(tableName) {
     var result;
-
+    log.info(application.get(DAS_TABLES));
     if (application.get(DAS_TABLES) == null) {
         application.put(DAS_TABLES, []);
     }
 
     if (application.get(DAS_TABLES).indexOf(tableName) > -1) {
+        log.info("table name exists");
         return true;
     }
 
@@ -118,9 +121,11 @@ function sendDASRequest(data, restResource, httpMethod) {
 
         if (httpMethod == 'POST'){
              result = post(dasServiceURL + restResource, JSON.stringify(data), httpHeaders, "application/json");
+             log.info("Result of POST method to DAS"+result);
 
         } else {
             result = get(dasServiceURL + restResource, {}, httpHeaders, "application/json");
+            log.info("Result of GET method to DAS"+result);
         }
 
         if (result) {
