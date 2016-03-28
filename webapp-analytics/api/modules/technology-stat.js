@@ -298,25 +298,22 @@ function getOperatingSystemPieStat(conditions, visibleNumbers, groupName){
 
 }
 
-
-
-
-
-//old
-
 function getHttpStatusStat(conditions) {
     var dataArray = [];
     var ticks = [];
-    var i, len;
-    var row;
+    var i;
     var opt;
-    var results = getHttpStatusStatData(conditions);
-    var chartOptions;
+    var total_request_count = 0;
+    var results, result;
 
-    for (i = 0, len = results.length; (i < len) && (i < 5); i++) {
-        row = results[i];
-        dataArray.push([i, row['request_count']]);
-        ticks.push([i, row['name']]);
+    results = getHttpStatusStatData(conditions);
+
+    if (results.length > 0) {
+        for (i = 0; i < results.length && (i < 5); i++) {
+            result = results[i];
+            dataArray.push([i, result[1]]);
+            ticks.push([i, result[0]]);
+        }
     }
 
     chartOptions = {
@@ -330,7 +327,7 @@ function getHttpStatusStat(conditions) {
     };
 
     print([
-        {'series1': {'label': 's', 'data': dataArray}}, chartOptions
+        {'series1': {'label': 's', 'data': dataArray}},
+        chartOptions
     ]);
-
 }

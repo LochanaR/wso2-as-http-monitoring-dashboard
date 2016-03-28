@@ -125,3 +125,37 @@ function getCountryTabularStat(conditions, tableHeadings, sortColumn) {
      print(helper.getTabularData(getCountryStatData(conditions), tableHeadings, sortColumn));
 
 }
+
+function getLanguageStat(){
+    var dataArray = [];
+    var ticks = [];
+    var i;
+    var opt;
+    var total_request_count = 0;
+    var results, result;
+
+    results = getLanguageStatData(conditions);
+
+    if (results.length > 0) {
+        for (i = 0; i < results.length && (i < 5); i++) {
+            result = results[i];
+            dataArray.push([i, result[1]]);
+            ticks.push([i, result[0]]);
+        }
+    }
+
+    chartOptions = {
+        'xaxis': {
+            'ticks': ticks,
+            'axisLabel': 'Top 5 HTTP Response Codes'
+        },
+        'yaxis': {
+            'axisLabel': 'Number of requests'
+        }
+    };
+
+    print([
+        {'series1': {'label': 's', 'data': dataArray}},
+        chartOptions
+    ]);
+}
