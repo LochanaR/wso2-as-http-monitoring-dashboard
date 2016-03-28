@@ -4,6 +4,6 @@
 "type": "gadget",
 "thumbnail": "store://gadget/languages-data-table/images/index.jpg",
 "data": {
-"url": "store://gadget/languages-data-table/language-data-table.xml"
+"url": "store://gadget/languages-data-table/languages-data-table.xml"
 }
 } 

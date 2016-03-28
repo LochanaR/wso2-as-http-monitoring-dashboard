@@ -163,8 +163,7 @@ function getLanguageTabularStat() {
     if (log.isDebugEnabled()) {
         log.debug('Retrieving language stat - tabular');
     }
-    geoStat.getLanguageTabularStat(conditions, ['Language', 'Request Count', 'Percentage'],
-            LANGUAGE_SORT);
+    geoStat.getLanguageTabularStat(conditions, ['Language', 'Request Count', 'Percentage'], LANGUAGE_SORT);
 }
 
 function getCountryStat() {
@@ -180,8 +179,7 @@ function getCountryTabularStat() {
     if (log.isDebugEnabled()) {
         log.debug('Retrieving country stat - tabular');
     }
-    geoStat.getCountryTabularStat(conditions, ['Country', 'Request Count', 'Percentage'],
-            COUNTRY_SORT);
+    geoStat.getCountryTabularStat(conditions, ['Country', 'Request Count', 'Percentage'],COUNTRY_SORT);
 }
 
 function getContextStat() {

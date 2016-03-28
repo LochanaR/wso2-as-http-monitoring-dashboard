@@ -17,104 +17,111 @@
  */
 
 include('../db.jag');
+include('../constants.jag');
 var helper = require('as-data-util.js');
 
-var dbMapping = {
-    'country': {
-        'table': 'COUNTRY',
-        'field': 'country'
-    },
-    'language': {
-        'table': 'LANGUAGE',
-        'field': 'language'
-    }
-};
-
-function buildGeoSql(dbEntries, whereClause) {
-    return 'SELECT ' + dbEntries.field + ' as name, ' +
-           'sum(averageRequestCount) as request_count, ' +
-           'round((sum(averageRequestCount)*100/(select sum(averageRequestCount) ' +
-           'FROM ' + dbEntries.table + ' ' + whereClause + ')),2) as percentage_request_count ' +
-           'FROM ' + dbEntries.table + ' ' + whereClause +
-           ' GROUP BY ' + dbEntries.field +
-           ' ORDER BY percentage_request_count DESC;';
-}
-
-function getGeoStatData(conditions, type) {
-    var dbEntry = dbMapping[type];
-    var sql = buildGeoSql(dbEntry, conditions.sql);
-    return executeQuery(sql, conditions.params);
-}
-
-function getLanguageStat(conditions) {
-    var dataArray = [];
-    var ticks = [];
-    var i, len;
-    var row;
-    var languageCode;
-    var results = getGeoStatData(conditions, 'language');
-    var languageCodeLookup = require('/languages.json');
-    var chartOptions;
-
-    for (i = 0, len = results.length; (i < len) && (i < 5); i++) {
-        row = results[i];
-        languageCode = results[i]['name'];
-        dataArray.push([i, row['request_count']]);
-        ticks.push([i, languageCodeLookup[row['name']] || languageCode]);
-    }
-
-    chartOptions = {
-        'xaxis': {
-            'ticks': ticks,
-            'axisLabel': 'Top 5 Languages'
-        },
-        'yaxis': {
-            'axisLabel': 'Number of requests'
+function getLanguageAllRequests(conditions){
+    var results = getAggregateDataFromDAS(LANGUAGE_TABLE, conditions, "0", ALL_FACET, [
+        {
+            "fieldName": AVERAGE_REQUEST_COUNT,
+            "aggregate": "SUM",
+            "alias": "SUM_" + AVERAGE_REQUEST_COUNT
         }
-    };
-
-    print([
-        {'series1': {'label': 's', 'data': dataArray}}, chartOptions
     ]);
+
+    results = JSON.parse(results);
+
+    if (results.length > 0) {
+        return results[0]['values']['SUM_' + AVERAGE_REQUEST_COUNT];
+    }
+}
+
+function getCountryAllRequests(conditions){
+    var results = getAggregateDataFromDAS(COUNTRY_TABLE, conditions, "0", ALL_FACET, [
+        {
+            "fieldName": AVERAGE_REQUEST_COUNT,
+            "aggregate": "SUM",
+            "alias": "SUM_" + AVERAGE_REQUEST_COUNT
+        }
+    ]);
+
+    results = JSON.parse(results);
+
+    if (results.length > 0) {
+        return results[0]['values']['SUM_' + AVERAGE_REQUEST_COUNT];
+    }
+}
+
+function getLanguageStatData(conditions) {
+    var output = [];
+    var i, total_request_count;
+    var results, result;
+
+    total_request_count = getLanguageAllRequests(conditions);
+
+    if(total_request_count <= 0){
+        return;
+
+    }
+    results = getAggregateDataFromDAS(LANGUAGE_TABLE, conditions, "0", LANGUAGE_FACET, [
+        {
+            "fieldName": AVERAGE_REQUEST_COUNT,
+            "aggregate": "SUM",
+            "alias": "SUM_" + AVERAGE_REQUEST_COUNT
+        }
+    ]);
+
+    results = JSON.parse(results);
+
+    if (results.length > 0) {
+        for (i = 0; i < results.length; i++) {
+            result = results[i]['values'];
+            output.push([result[LANGUAGE_FACET], result['SUM_' + AVERAGE_REQUEST_COUNT],
+                (result['SUM_' + AVERAGE_REQUEST_COUNT]*100/total_request_count).toFixed(2)]);
+        }
+    }
+
+    return output;
 }
 
 function getLanguageTabularStat(conditions, tableHeadings, sortColumn) {
-    var i, len;
-    var results = getGeoStatData(conditions, 'language');
-    var languageCode;
-    var languageCodeLookup = require('/languages.json');
-
-    for (i = 0, len = results.length; i < len; i++) {
-        languageCode = results[i]['name'];
-        results[i]['name'] = languageCodeLookup[languageCode] || languageCode;
-    }
-    print(helper.getTabularData(results, tableHeadings, sortColumn));
+    print(helper.getTabularData(getLanguageStatData(conditions), tableHeadings, sortColumn));
 }
 
-function getCountryStat(conditions) {
-    var dataObject = {};
-    var i, len;
-    var row;
-    var results = getGeoStatData(conditions, 'country');
+function getCountryStatData(conditions) {
+    var output = [];
+    var i, total_request_count;
+    var results, result;
 
-    for (i = 0, len = results.length; i < len; i++) {
-        row = results[i];
-        dataObject[row['name']] = row['request_count'];
+    total_request_count = getCountryAllRequests(conditions);
+
+    if(total_request_count <= 0){
+        return;
+
     }
-    print(dataObject);
+    results = getAggregateDataFromDAS(COUNTRY_TABLE, conditions, "0", COUNTRY_FACET, [
+        {
+            "fieldName": AVERAGE_REQUEST_COUNT,
+            "aggregate": "SUM",
+            "alias": "SUM_" + AVERAGE_REQUEST_COUNT
+        }
+    ]);
+
+    results = JSON.parse(results);
+
+    if (results.length > 0) {
+        for (i = 0; i < results.length; i++) {
+            result = results[i]['values'];
+            output.push([result[COUNTRY_FACET], result['SUM_' + AVERAGE_REQUEST_COUNT],
+                (result['SUM_' + AVERAGE_REQUEST_COUNT]*100/total_request_count).toFixed(2)]);
+        }
+    }
+
+    return output;
 
 }
 
 function getCountryTabularStat(conditions, tableHeadings, sortColumn) {
-    var i, len;
-    var countryCode;
-    var results = getGeoStatData(conditions, 'country');
-    var countryCodeLookup = require('/countries.json');
-
-    for (i = 0, len = results.length; i < len; i++) {
-        countryCode = results[i]['name'];
-        results[i]['name'] = countryCodeLookup[countryCode] || countryCode;
-    }
-    print(helper.getTabularData(results, tableHeadings, sortColumn));
+     print(helper.getTabularData(getCountryStatData(conditions), tableHeadings, sortColumn));
 
 }
