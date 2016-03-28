@@ -130,8 +130,7 @@ function getDeviceTypeTabularStat() {
     if (log.isDebugEnabled()) {
         log.debug('Retrieving device type stat - tabular');
     }
-    technologyStat.getTechnologyTubularStat(conditions, 'device-type',
-            ['Device type', 'Request Count', 'Percentage'], DEVICE_TYPE_SORT);
+    technologyStat.getDeviceTabularStat(conditions,['Device type', 'Request Count', 'Percentage'], DEVICE_TYPE_SORT);
 }
 
 function getHttpStatusStat() {
