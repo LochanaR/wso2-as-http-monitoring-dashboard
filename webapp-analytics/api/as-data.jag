@@ -190,8 +190,7 @@ function getContextStat() {
     if (log.isDebugEnabled()) {
         log.debug('Retrieving context stat');
     }
-    trafficStat.getTrafficStat(conditions, 'context', ['Context', 'Request Count', 'Percentage'],
-            CONTEXT_SORT);
+    trafficStat.getContextTabularStat(conditions, ['Context', 'Request Count', 'Percentage'],CONTEXT_SORT);
 }
 
 function getReferralStat() {
