@@ -88,7 +88,7 @@ function getBrowserStat() {
     if (log.isDebugEnabled()) {
         log.debug('Retrieving browser stats');
     }
-    technologyStat.getTechnologyStat(conditions, 'browser', BROWSER_SIGNIFICANT, 'Other Browsers');
+    technologyStat.getBrowserPieStat(conditions, BROWSER_SIGNIFICANT, 'Other Browsers');
 }
 
 function getBrowserTabularStat() {
@@ -104,7 +104,7 @@ function getOperatingSystemStat() {
     if (log.isDebugEnabled()) {
         log.debug('Retrieving operating system stat');
     }
-    technologyStat.getTechnologyStat(conditions, 'os', OS_SIGNIFICANT, 'Other Operating Systems');
+    technologyStat.getOperatingSystemPieStat(conditions, OS_SIGNIFICANT, 'Other Operating Systems');
 }
 
 function getOperatingSystemTabularStat() {
@@ -112,7 +112,7 @@ function getOperatingSystemTabularStat() {
     if (log.isDebugEnabled()) {
         log.debug('Retrieving operating system stat - tabular');
     }
-    technologyStat.getTechnologyTubularStat(conditions, 'os',
+    technologyStat.getOperatingSystemTabularStat(conditions,
             ['Operating System', 'Request Count', 'Percentage'], OS_SORT);
 }
 
@@ -121,8 +121,7 @@ function getDeviceTypeStat() {
     if (log.isDebugEnabled()) {
         log.debug('Retrieving device type stat');
     }
-    technologyStat.getTechnologyStat(conditions, 'device-type', DEVICE_TYPE_SIGNIFICANT,
-            'Other devices');
+    technologyStat.getDevicePieStat(conditions, DEVICE_TYPE_SIGNIFICANT,'Other devices');
 }
 
 function getDeviceTypeTabularStat() {
