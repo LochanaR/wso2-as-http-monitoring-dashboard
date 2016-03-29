@@ -15,8 +15,8 @@
     <body>
     <div id="clearfix">
 	<div class="btn-group quick-selection pull-right" id ="date-select">
-            <button type="button" data-unit="hours" data-offset="1" class="btn btn-default type active">Hour</button>
-            <button type="button" id="dayBtn" data-unit="days" data-offset="1" class="btn btn-default type">Day</button>
+            <button type="button" data-unit="hours" data-offset="1" class="btn btn-default type">Hour</button>
+            <button type="button" id="dayBtn" data-unit="days" data-offset="1" class="btn btn-default type active">Day</button>
             <button type="button" id="weekBtn" data-unit="days" data-offset="7" class="btn btn-default type">Week</button>
             <button type="button" id="monthBtn" data-unit="days" data-offset="29" class="btn btn-default type">Month</button>
             <div id="reportrange" class="btn-group" role= "group">

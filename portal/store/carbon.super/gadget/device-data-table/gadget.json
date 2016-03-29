@@ -5,5 +5,11 @@
 "thumbnail": "store://gadget/device-data-table/images/index.jpg",
 "data": {
 "url": "store://gadget/device-data-table/device-data-table.xml"
-}
+},
+  "listen": {
+    "timeRangeChangeSubscriber": {
+      "type": "message",
+      "description": "This listens to  message received by the subscriber"
+    }
+  }
 } 

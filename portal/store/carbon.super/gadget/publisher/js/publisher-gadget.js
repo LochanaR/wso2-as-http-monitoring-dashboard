@@ -24,6 +24,11 @@ $(function() {
         opens: "left"
     }, callbackDateRangePicker);
 
+    //default date range is 24 hours
+    var startTime = moment().subtract(24, 'hours');
+    var endTime = moment();
+    $('#reportrange span').html(startTime.format('MMMM D, YYYY') + ' - ' + endTime.format('MMMM D, YYYY'));
+
 });
 
 var callbackDateRangePicker = function (start, end,label) {
@@ -77,6 +82,7 @@ $('#monthBtn').on('click', function () {
     var array = getTimeFromButton(this);
     publish(array[0], array[1]);
 });
+
 $(".type").click(function(){
     $(".type").removeClass("active");
     $(this).addClass("active");

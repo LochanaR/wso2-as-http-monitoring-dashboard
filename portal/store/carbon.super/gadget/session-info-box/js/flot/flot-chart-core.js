@@ -199,21 +199,28 @@ function isNumber(n) {
 
 gadgets.HubSettings.onConnect = function () {
 
-    gadgets.Hub.subscribe('wso2.gadgets.charts.timeRangeChange',
+    //gadgets.Hub.subscribe('wso2.gadgets.charts.timeRangeChange',
+    //    function (topic, data, subscriberData) {
+    //        start = data.start.format('YYYY-MM-DD HH:mm');
+    //        end = data.end.format('YYYY-MM-DD HH:mm');
+    //        fetchData();
+    //    }
+    //);
+    //
+    //gadgets.Hub.subscribe('wso2.gadgets.charts.ipChange',
+    //    function (topic, data, subscriberData) {
+    //        node = data;
+    //        fetchData();
+    //    }
+    //);
+    gadgets.Hub.subscribe('timeRangeChangeSubscriber',
         function (topic, data, subscriberData) {
-            start = data.start.format('YYYY-MM-DD HH:mm');
-            end = data.end.format('YYYY-MM-DD HH:mm');
+            //alert("Subscriber just received dates " +data.start + " and " +data.end);
+            start = data.start;
+            end = data.end;
             fetchData();
         }
     );
-
-    gadgets.Hub.subscribe('wso2.gadgets.charts.ipChange',
-        function (topic, data, subscriberData) {
-            node = data;
-            fetchData();
-        }
-    );
-
 };
 
 
