@@ -7,6 +7,7 @@
                  tags="info box,visualization,template"
                  description="A info box gadget specifically developed for WSO2 AS HTTP Monitoring Dashboard.">
         <Require feature="pubsub-2"/>
+        <Require feature="dynamic-height"/>
     </ModulePrefs>
     <UserPref name="dataSource"
               display_name="Data Source"

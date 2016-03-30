@@ -26,6 +26,12 @@ $(function () {
 
 });
 
+$(window).load(function(){
+    var parentWindow = window.parent.document,
+        thisParentWrapper = $('#'+gadgets.rpc.RPC_ID, parentWindow).closest('.gadget-body');
+    $(thisParentWrapper).closest('.ues-component-box').addClass('info-widget form-control-widget');
+});
+
 function togglePause(btnElm) {
     if (btnElm.hasClass('btn-warning')) {
         clearTimeout(delay);
