@@ -63,7 +63,7 @@
             <div class="panel-heading">
                 <div class="statistics info-box-i-three" style="display:none" >
                 	<div class="row">
-                  		<div class="col-xs-3">
+                  		<div class="col-xs-3" style="height: 103px;">
                      		<small class="statistics-main">Sessions</small>
                     		<i class="fa fa-group fa-3x"></i>
                   		</div>
