@@ -93,54 +93,6 @@
                         </div>
                     </div><!-- row -->
                 </div><!-- statistics box one and two-->
-
-                <div class="statistics info-box-i-three" style="display:none" >
-                	<div class="row">
-                  		<div class="col-xs-3">
-                     		<small class="statistics-main">Sessions</small>
-                    		<i class="fa fa-group fa-3x"></i>
-                  		</div>
-                  		<div class="col-xs-9">
-                   			<span class="total-count"></span>
-                  		</div>
-                	</div><!-- row -->
-                	<div class="arrow-box"></div>
-                	<div class="row">
-
-                  		<div class="col-xs-8 panel-bottom-box left-radius box-one-color">
-                  			<div class="h4-stat-label">Avg per min.</div>
-                    		<small class="stat-label">&nbsp;</small>
-                  		</div>
-
-                  		<div class="col-xs-4 panel-bottom-box  right-radius  box-one-color">
-                  			<h4 class="avg-count">120</h4>
-                    		<small class="stat-label">&nbsp;</small>
-                  		</div>
-                	</div><!-- row -->
-              </div><!-- statistics box three -->
-
-              <div class="statistics info-box-i-four" style="display:none" >
-                	<div class="row">
-                  		<div class="col-xs-3">
-                     		<small class="statistics-main">Errors</small>
-                    		<i class="fa fa-times-circle fa-3x"></i>
-
-                  		</div>
-                  		<div class="col-xs-9">
-                   			<span class="total-count">123</span>
-                  		</div>
-                	</div><!-- row -->
-                	<div class="arrow-box"></div>
-                	<div class="row">
-
-                  		<div class="col-xs-12 panel-bottom-box  right-radius left-radius  box-one-color">
-                  			<h4 class="error-percentage">23%</h4>
-                    		<small class="stat-label">&nbsp;</small>
-                  		</div>
-                	</div><!-- row -->
-              </div><!-- statistics box four-->
-
-
             </div><!-- panel-heading -->
         </div><!-- panel -->
 </body>

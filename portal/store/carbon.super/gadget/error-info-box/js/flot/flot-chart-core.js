@@ -32,6 +32,7 @@ $(window).load(function(){
     $(thisParentWrapper).closest('.ues-component-box').addClass('info-widget form-control-widget');
 });
 
+
 function togglePause(btnElm) {
     if (btnElm.hasClass('btn-warning')) {
         clearTimeout(delay);
