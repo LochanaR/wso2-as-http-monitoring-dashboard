@@ -121,6 +121,20 @@ function getCountryStatData(conditions) {
 
 }
 
+function drawCountryMap(conditions){
+    var dataObject = {};
+    var i, len;
+    var row;
+    var results = getCountryStatData(conditions);
+
+
+    for (i = 0, len = results.length; i < len; i++) {
+        row = results[i];
+        dataObject[row['name']] = row['request_count'];
+    }
+    print(dataObject);
+}
+
 function getCountryTabularStat(conditions, tableHeadings, sortColumn) {
      print(helper.getTabularData(getCountryStatData(conditions), tableHeadings, sortColumn));
 

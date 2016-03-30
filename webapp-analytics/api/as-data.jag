@@ -170,7 +170,7 @@ function getCountryStat() {
     if (log.isDebugEnabled()) {
         log.debug('Retrieving country stat');
     }
-    geoStat.getCountryStat(conditions);
+    geoStat.drawCountryMap(conditions);
 }
 
 function getCountryTabularStat() {
